@@ -5,6 +5,7 @@ import routers from "./routes/index.js";
 
 const app = express();
 dotenv.config();
+app.use(express.json());
 app.use("/api", routers);
 
 const connect = () => {
