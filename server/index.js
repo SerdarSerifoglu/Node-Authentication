@@ -1,9 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import routers from "./routes/index.js";
 
 const app = express();
 dotenv.config();
+app.use("/api", routers);
 
 const connect = () => {
   mongoose
