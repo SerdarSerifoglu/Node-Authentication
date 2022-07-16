@@ -4,8 +4,8 @@ import AuthService from "../services/authService.js";
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
-  var result = await AuthService.signup(req.body);
-  res.json(result);
+  const user = await AuthService.insert(req.body);
+  res.json(user);
 });
 
 export default router;
