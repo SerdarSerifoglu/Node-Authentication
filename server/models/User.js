@@ -8,15 +8,25 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      lowercase: true,
+      match: [
+        /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
+        "Please provide a valid email",
+      ],
     },
     password: {
       type: String,
+      minlength: [6, "Please provide a password with min lenght 6"],
       required: true,
+      select: false,
+      trim: true,
     },
   },
   { timestamps: true }
@@ -33,5 +43,10 @@ UserSchema.pre("save", async function preSave(next) {
     return next(error);
   }
 });
+
+UserSchema.methods.comparePassword = async function comparePassword(candidate) {
+  console.log("model", { pass: this.password, candidate });
+  return await bcrypt.compare(candidate, this.password);
+};
 
 export default mongoose.model("User", UserSchema);
